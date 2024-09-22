@@ -1,0 +1,26 @@
+playlist link: https://www.youtube.com/watch?v=oar0wTa658c&list=PLafkKTUDps_7hlj7yRR0LP-fhwo_X-AYw&index=3
+
+all routes / screens => apps folder
+components that we use => components folder
+hooks / custom hooks => hooks folder
+by default reset project script  => scripts folder
+
+
+
+Types of routing and their animation: 
+1. stack routing => https://reactnavigation.org/assets/navigators/stack/simple-details.mp4
+
+2. drawer =>  https://reactnavigation.org/assets/navigators/drawer/drawer.mp4
+
+3. tabs =>  https://reactnavigation.org/assets/navigators/tabs/bottom-tabs-demo.mp4
+doc : docs.expo.dev/router/advanced/stack/
+
+
+
+_layout.jsx file:
+agar hm kisi page ka layout create kregne to sbse phle vo us layout file me jaega  and vo read hoga and if layout file not present then index.jsx file read hoti hai phle (look for _layout file in root). In layout file we define the layout of the screens for that route / group
+
+
+
+(tab) folder => if we want to make a group and not want a folder to be considered as a route then add "()" in its name. 
+like hme neeche tab dene hai for routing to unka group bnega tabs ka to vo group ko route na consider kre islie "(tab)" name dia us folder ka
