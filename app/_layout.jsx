@@ -13,10 +13,7 @@ export default function RootLayout() {
     //   },
     // }}
     >
-      <Stack.Screen name="(tab)" options={{ headerShown: false }} />
-      <Stack.Screen name="index" />
-      <Stack.Screen name="about/index" />
-      <Stack.Screen name="career" />
+      <Stack.Screen name="index" options={{ headerShown: false }} />
     </Stack>
   );
 }

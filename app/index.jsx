@@ -1,33 +1,46 @@
-import { Link } from "expo-router";
-import { Text, View } from "react-native";
+import { Link } from "expo-router"; // If you're using this for navigation
+import { ImageBackground, Text, View, StyleSheet, Button } from "react-native";
+import homeScreenBG from "../assets/images/AIde-homescreen-bg.png";
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function Index() {
   return (
-    <View
+    <ImageBackground
+      source={homeScreenBG} // You can use the imported image directly
       style={{
         flex: 1,
-        backgroundColor: "red",
+        width: "100%", // Ensure it stretches across the width
+        height: "100%", // Ensure it stretches across the height
         justifyContent: "center",
         alignItems: "center",
-        gap: 10,
+        gap: "2rem",
       }}
+      resizeMode="cover"
     >
-      <Text className="text-white">
-        Edit app/index.tsx to edit this screen.
-      </Text>
-      <Text className="text-white text-lg">
-        This page has no header shown on top
-      </Text>
+      <View className="w-[80%] flex items-center gap-5">
+        <Text
+          className="text-white"
+          style={{
+            fontSize: "2rem",
+          }}
+        >
+          Welcome to AIde!
+        </Text>
+      </View>
 
-      {/* about route => separate folder (best approach) */}
-      <Link className="mt-10 text-xl text-white" href={"./about"}>
-        Go to about (folder based)
-      </Link>
-
-      {/* career route => single file in root folder */}
-      <Link className="text-xl text-white" href={"./career"}>
-        Go to career (file in root app folder)
-      </Link>
-    </View>
+      <View
+        style={{
+          backgroundColor: "rgba(115, 114, 115, 0.43)",
+          borderRadius: "0.5rem",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: "0.5rem",
+        }}
+        className="p-2"
+      >
+        <Text className="text-white">Google Sign IN</Text>
+        <FontAwesome size={28} name="google" color="white" />
+      </View>
+    </ImageBackground>
   );
 }
