@@ -5,15 +5,39 @@ import logo from "@/assets/images/logo.png";
 import { FontAwesome } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
 export default function Index() {
   const [showWelcomeText, setShowWelcomeText] = useState(false);
+
+  const CLIENT_ID = process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID;
 
   useEffect(() => {
     setTimeout(() => {
       setShowWelcomeText(true);
     }, [700]);
   }, []);
+
+  // function to call the backend API for auhtorisation after getting the token from google auth
+  const handleLoginSuccess = async (credentialResponse) => {
+    console.log("response after login: ", credentialResponse);
+    const { credential } = credentialResponse;
+
+    // Send the ID token to the backend
+    const res = await fetch("http://localhost:4000/auth/google", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: credential }),
+    });
+
+    const data = await res.json();
+    console.log("Logged in user:", data);
+  };
+
+  // google login failure handler
+  const handleLoginFailure = () => {
+    console.error("Login failed");
+  };
 
   return (
     // backgrpund image container
@@ -61,21 +85,12 @@ export default function Index() {
       </View>
 
       {/* sign in with google button */}
-      <TouchableOpacity
-        activeOpacity={0.7}
-        style={{
-          backgroundColor: "rgba(115, 114, 115, 0.43)",
-          borderRadius: "0.5rem",
-          flexDirection: "row",
-          alignItems: "center",
-          gap: "0.5rem",
-          paddingHorizontal: 20,
-          paddingVertical: 10,
-        }}
-      >
-        <Text className="text-white">Google Sign IN</Text>
-        <FontAwesome size={28} name="google" color="white" />
-      </TouchableOpacity>
+      <GoogleOAuthProvider clientId={CLIENT_ID}>
+        <GoogleLogin
+          onSuccess={handleLoginSuccess}
+          onError={handleLoginFailure}
+        />
+      </GoogleOAuthProvider>
     </ImageBackground>
   );
 }
