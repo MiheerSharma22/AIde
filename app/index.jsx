@@ -1,14 +1,13 @@
-import { Link } from "expo-router"; // If you're using this for navigation
-import { ImageBackground, Text, View, Image } from "react-native";
+import { useRouter } from "expo-router";
+import { ImageBackground, Text, View, Image, Pressable } from "react-native";
 import homeScreenBG from "@/assets/images/AIde-homescreen-bg.png";
 import logo from "@/assets/images/logo.png";
-import { FontAwesome } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
 export default function Index() {
   const [showWelcomeText, setShowWelcomeText] = useState(false);
+  const router = useRouter();
 
   const CLIENT_ID = process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID;
 
@@ -24,13 +23,15 @@ export default function Index() {
     const { credential } = credentialResponse;
 
     // Send the ID token to the backend
-    const res = await fetch("http://localhost:4000/auth/google", {
+    const res = await fetch(`${process.env.EXPO_PUBLIC_BASE_URL}/auth/google`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token: credential }),
     });
 
     const data = await res.json();
+    if (data.success)
+      router.push({ pathname: "/chats", params: { token: data.accessToken } });
     console.log("Logged in user:", data);
   };
 
@@ -40,7 +41,7 @@ export default function Index() {
   };
 
   return (
-    // backgrpund image container
+    // background image container
     <ImageBackground
       source={homeScreenBG} // You can use the imported image directly
       style={{
