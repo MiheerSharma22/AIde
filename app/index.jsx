@@ -1,15 +1,33 @@
 import { useRouter } from "expo-router";
-import { ImageBackground, Text, View, Image, Pressable } from "react-native";
+import {
+  ImageBackground,
+  Text,
+  View,
+  Image,
+  Pressable,
+  Button,
+} from "react-native";
 import homeScreenBG from "@/assets/images/AIde-homescreen-bg.png";
 import logo from "@/assets/images/logo.png";
 import { useEffect, useState } from "react";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
+import * as Google from "expo-auth-session/providers/google";
+// web browser inside our application so we dont have to leave the app to google sign in
+import * as WebBrowser from "expo-web-browser";
+
+WebBrowser.maybeCompleteAuthSession();
+
 export default function Index() {
   const [showWelcomeText, setShowWelcomeText] = useState(false);
   const router = useRouter();
 
-  const CLIENT_ID = process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID;
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId: process.env.EXPO_PUBLIC_ANDROID_CLIENT_ID,
+    webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
+    iosClientId: "",
+    responseType: "id_token",
+  });
 
   useEffect(() => {
     setTimeout(() => {
@@ -17,27 +35,27 @@ export default function Index() {
     }, [700]);
   }, []);
 
+  // to call the fetch all chats api when received token from google after user tries to login
+  useEffect(() => {
+    if (response?.params?.id_token)
+      handleLoginSuccess(response?.params?.id_token);
+  }, [response]);
+
   // function to call the backend API for auhtorisation after getting the token from google auth
-  const handleLoginSuccess = async (credentialResponse) => {
-    console.log("response after login: ", credentialResponse);
-    const { credential } = credentialResponse;
+  const handleLoginSuccess = async (token) => {
+    console.log("response after login: ", token);
 
     // Send the ID token to the backend
     const res = await fetch(`${process.env.EXPO_PUBLIC_BASE_URL}/auth/google`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token: credential }),
+      body: JSON.stringify({ token: token }),
     });
 
     const data = await res.json();
     if (data.success)
       router.push({ pathname: "/chats", params: { token: data.accessToken } });
     console.log("Logged in user:", data);
-  };
-
-  // google login failure handler
-  const handleLoginFailure = () => {
-    console.error("Login failed");
   };
 
   return (
@@ -86,12 +104,13 @@ export default function Index() {
       </View>
 
       {/* sign in with google button */}
-      <GoogleOAuthProvider clientId={CLIENT_ID}>
+      {/* <GoogleOAuthProvider clientId={CLIENT_ID}>
         <GoogleLogin
           onSuccess={handleLoginSuccess}
           onError={handleLoginFailure}
         />
-      </GoogleOAuthProvider>
+      </GoogleOAuthProvider> */}
+      <Button title="Sign in with Google" onPress={promptAsync} />
     </ImageBackground>
   );
 }
