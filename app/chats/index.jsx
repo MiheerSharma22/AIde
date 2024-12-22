@@ -33,7 +33,7 @@ export default function Chats() {
   return (
     <>
       {allMessages.length > 0 ? (
-        <ScrollView style={{ flex: 1, paddingVertical: "1rem" }}>
+        <ScrollView className="bg-green-500 rounded-md flex-1 p-4">
           {allMessages.map((message) => (
             <MessageCard key={message._id} message={message} />
           ))}

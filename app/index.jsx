@@ -1,16 +1,8 @@
 import { useRouter } from "expo-router";
-import {
-  ImageBackground,
-  Text,
-  View,
-  Image,
-  Pressable,
-  Button,
-} from "react-native";
+import { ImageBackground, Text, View, Image, Button } from "react-native";
 import homeScreenBG from "@/assets/images/AIde-homescreen-bg.png";
 import logo from "@/assets/images/logo.png";
 import { useEffect, useState } from "react";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
 import * as Google from "expo-auth-session/providers/google";
 // web browser inside our application so we dont have to leave the app to google sign in
@@ -62,55 +54,29 @@ export default function Index() {
     // background image container
     <ImageBackground
       source={homeScreenBG} // You can use the imported image directly
-      style={{
-        flex: 1,
-        width: "100%", // Ensure it stretches across the width
-        height: "100%", // Ensure it stretches across the height
-        justifyContent: "space-around",
-        alignItems: "center",
-        gap: "5rem",
-      }}
+      className="gap-[5rem] items-center justify-around h-[100%] w-[100%] flex-1"
       resizeMode="cover"
     >
       {/*logo and welcome text */}
-      <View
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "1.25rem",
-          width: "80%",
-          transformOrigin: "center",
-        }}
-      >
+      <View className="gap-[20px] w-[80%] origin-center justify-center items-center">
         {/* logo image */}
         <Image source={logo} className="h-[80px]" resizeMode="contain" />
 
         {/* welcome screen text */}
         {showWelcomeText && (
-          <Text
-            className="text-[#7B4FFA]"
-            style={{
-              fontSize: "1rem",
-              fontWeight: "600",
-              transitionProperty: "all",
-              transitionDuration: 150,
-              fontFamily: "cursive",
-              opacity: 0.7,
-            }}
-          >
+          <Text className="text-[#7B4FFA] text-[15px] font-bold opacity-70 tracking-wider">
             Your own AI helper.
           </Text>
         )}
       </View>
 
       {/* sign in with google button */}
-      {/* <GoogleOAuthProvider clientId={CLIENT_ID}>
-        <GoogleLogin
-          onSuccess={handleLoginSuccess}
-          onError={handleLoginFailure}
-        />
-      </GoogleOAuthProvider> */}
-      <Button title="Sign in with Google" onPress={promptAsync} />
+      <Button
+        title="Sign in with Google"
+        onPress={() => {
+          promptAsync();
+        }}
+      />
     </ImageBackground>
   );
 }
