@@ -7,12 +7,26 @@ import { MessageCard } from "../../components/MessageCard";
 export default function Chats() {
   const { token } = useLocalSearchParams();
   const [allMessages, setAllMessages] = useState([]);
+  // todo: set chatType to one passed as prop from user selected option on chat option screen
+  const [chatType, setChatType] = useState("itinerary");
+
+  const chatTypeToResuLtKeyMap = {
+    recipe: "allUserRecipes",
+    chat: "allUserMessages",
+    itinerary: "allUserItineraries",
+  };
+
+  const chatTypeToAPIEndpointMap = {
+    recipe: "/getAllRecipes",
+    chat: "/getAllChatMessages",
+    itinerary: "/getAllItineraries",
+  };
 
   // TODO: CHANGE THE WAY WE PASS TOKEN FROM ROOT INDEX FILE (PARAMS), STORE IT IN CENTRAL STATE
   // fetch all the messages from the server
   const handleFetchAllChats = async () => {
     const data = await fetch(
-      `${process.env.EXPO_PUBLIC_BASE_URL}/getAllMessages`,
+      `${process.env.EXPO_PUBLIC_BASE_URL}${chatTypeToAPIEndpointMap[chatType]}`,
       {
         method: "GET",
         headers: {
@@ -24,7 +38,7 @@ export default function Chats() {
 
     const res = await data.json();
     console.log("get all messages response: ", res);
-    setAllMessages(res.data.allUserMessages);
+    setAllMessages(res.data[chatTypeToResuLtKeyMap[chatType]]);
   };
   useEffect(() => {
     handleFetchAllChats();
@@ -32,14 +46,14 @@ export default function Chats() {
 
   return (
     <>
-      {allMessages.length > 0 ? (
+      {allMessages?.length > 0 ? (
         <ScrollView className="bg-green-500 rounded-md flex-1 p-4">
           {allMessages.map((message) => (
             <MessageCard key={message._id} message={message} />
           ))}
         </ScrollView>
       ) : (
-        <></>
+        <span>No Messages Yet! start asking.</span>
       )}
     </>
   );
