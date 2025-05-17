@@ -46,7 +46,10 @@ export default function Index() {
 
     const data = await res.json();
     if (data.success)
-      router.push({ pathname: "/chats", params: { token: data.accessToken } });
+      router.push({
+        pathname: "/chatType",
+        params: { token: data.accessToken },
+      });
     console.log("Logged in user:", data);
   };
 
