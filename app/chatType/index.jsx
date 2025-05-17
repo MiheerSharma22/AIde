@@ -9,7 +9,7 @@ export default function ChatType() {
   const handleSettingChatType = (type) => {
     router.push({
       pathname: "/chats",
-      params: { token: token, typeOfChat: type },
+      params: { token: token, chatType: type },
     });
   };
   return (

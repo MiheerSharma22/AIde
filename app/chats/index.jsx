@@ -5,10 +5,8 @@ import { useLocalSearchParams } from "expo-router";
 import { MessageCard } from "../../components/MessageCard";
 
 export default function Chats() {
-  const { token } = useLocalSearchParams();
+  const { token, chatType } = useLocalSearchParams();
   const [allMessages, setAllMessages] = useState([]);
-  // todo: set chatType to one passed as prop from user selected option on chat option screen
-  const [chatType, setChatType] = useState("itinerary");
 
   const chatTypeToResuLtKeyMap = {
     recipe: "allUserRecipes",
