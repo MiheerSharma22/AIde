@@ -1,0 +1,20 @@
+- find a better way to navigate b/w screens, => currently uing router.psuh()
+- find a better way to pass the data into "chatType" and "chats" screen, currently passing as search params
+
+Avoid passing sensitive tokens (e.g., access tokens) via URL params. Instead:
+
+Store it in secure storage (expo-secure-store or context).
+
+Retrieve from there on target screens.
+
+example: 
+import * as SecureStore from 'expo-secure-store';
+
+await SecureStore.setItemAsync("accessToken", data.accessToken);
+router.push("/chats");
+
+// access the token
+const token = await SecureStore.getItemAsync("accessToken");
+
+
+- use alias import not relative import
