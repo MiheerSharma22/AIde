@@ -51,7 +51,7 @@ export default function Chats() {
           ))}
         </ScrollView>
       ) : (
-        <span>No Messages Yet! start asking.</span>
+        <Text>No Messages Yet! start asking.</Text>
       )}
     </>
   );
