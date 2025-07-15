@@ -20,6 +20,7 @@ import {
 
 import homeScreenBG from "@/assets/images/AIde-homescreen-bg.png";
 import logo from "@/assets/images/logo.png";
+import { useAuthToken } from "@/hooks/useAuthToken";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -33,6 +34,7 @@ const {
 export default function Index() {
   const [showWelcomeText, setShowWelcomeText] = useState(false);
   const router = useRouter();
+  const { accessToken, setUserAndAccessToken } = useAuthToken();
 
   useEffect(() => {
     GoogleSignin.configure({
@@ -48,7 +50,21 @@ export default function Index() {
 
       profileImageSize: 150,
     });
-  }, []);
+
+    // Check token persistence on app load
+    const checkUser = async () => {
+      console.log("user----", accessToken);
+      try {
+        if (accessToken) {
+          router.push("/chatType");
+        }
+      } catch (e) {
+        console.error("Error in checking user details", e);
+      }
+    };
+
+    checkUser();
+  }, [accessToken]);
 
   const handleGoogleSignIn = async () => {
     try {
@@ -66,12 +82,14 @@ export default function Index() {
         });
 
         const data = await res.json();
-        if (data.success)
+        if (data.success) {
+          setUserAndAccessToken(data.accessToken, user);
+
           router.push({
             pathname: "/chatType",
-            params: { token: data.accessToken },
+            // params: { token: data.accessToken },
           });
-        // console.log("Logged in user:", data);
+        }
       } else {
         console.error("API not providing expected response!");
       }
@@ -127,7 +145,6 @@ export default function Index() {
       <Button
         title="Sign in with Google"
         onPress={() => {
-          // promptAsync();
           handleGoogleSignIn();
         }}
       />

@@ -1,12 +1,15 @@
-import { View, Text, ScrollView } from "react-native";
-import React, { useEffect, useState } from "react";
+import { Text, ScrollView } from "react-native";
+import { useEffect, useState } from "react";
 import { useLocalSearchParams } from "expo-router";
+
 // TODO: also import message card using alias import not relative import
 import { MessageCard } from "../../components/MessageCard";
+import { useAuthToken } from "@/hooks/useAuthToken";
 
 export default function Chats() {
-  const { token, chatType } = useLocalSearchParams();
+  const { chatType } = useLocalSearchParams();
   const [allMessages, setAllMessages] = useState([]);
+  const { accessToken } = useAuthToken();
 
   const chatTypeToResuLtKeyMap = {
     recipe: "allUserRecipes",
@@ -20,7 +23,6 @@ export default function Chats() {
     itinerary: "/getAllItineraries",
   };
 
-  // TODO: CHANGE THE WAY WE PASS TOKEN FROM ROOT INDEX FILE (PARAMS), STORE IT IN CENTRAL STATE
   // fetch all the messages from the server
   const handleFetchAllChats = async () => {
     const data = await fetch(
@@ -29,7 +31,7 @@ export default function Chats() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          authorization: `Bearer ${token}`,
+          authorization: `Bearer ${accessToken}`,
         },
       }
     );
@@ -38,9 +40,10 @@ export default function Chats() {
     console.log("get all messages response: ", res);
     setAllMessages(res.data[chatTypeToResuLtKeyMap[chatType]]);
   };
+
   useEffect(() => {
-    handleFetchAllChats();
-  }, []);
+    accessToken && handleFetchAllChats();
+  }, [accessToken]);
 
   return (
     <>
