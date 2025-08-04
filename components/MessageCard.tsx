@@ -24,7 +24,7 @@ export const MessageCard = ({ message }: Props) => {
         borderColor: "black",
       }}
     >
-      <Text>{message?.chatMessage}</Text>
+      <Text className="text-white">{message?.chatMessage}</Text>
     </View>
   );
 };

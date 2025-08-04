@@ -1,6 +1,7 @@
-import { Text, ScrollView } from "react-native";
+import { Text, ScrollView, ImageBackground } from "react-native";
 import { useEffect, useState } from "react";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
+import ChatBg from "@/assets/images/chatBg.png";
 
 // TODO: also import message card using alias import not relative import
 import { MessageCard } from "../../components/MessageCard";
@@ -46,9 +47,9 @@ export default function Chats() {
   }, [accessToken]);
 
   return (
-    <>
+    <ImageBackground source={ChatBg} className="flex-1" resizeMode="cover">
       {allMessages?.length > 0 ? (
-        <ScrollView className="bg-green-500 rounded-md flex-1 p-4">
+        <ScrollView className="rounded-md flex-1 p-4">
           {allMessages.map((message) => (
             <MessageCard key={message._id} message={message} />
           ))}
@@ -56,6 +57,6 @@ export default function Chats() {
       ) : (
         <Text>No Messages Yet! start asking.</Text>
       )}
-    </>
+    </ImageBackground>
   );
 }

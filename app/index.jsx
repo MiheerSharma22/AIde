@@ -53,10 +53,9 @@ export default function Index() {
 
     // Check token persistence on app load
     const checkUser = async () => {
-      console.log("user----", accessToken);
       try {
         if (accessToken) {
-          router.push("/chatType");
+          router.replace("/chatType");
         }
       } catch (e) {
         console.error("Error in checking user details", e);
