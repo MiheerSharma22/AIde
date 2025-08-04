@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { Text, ScrollView } from "react-native";
 import React from "react";
 
 type Props = {
@@ -13,18 +13,18 @@ type Props = {
 
 export const MessageCard = ({ message }: Props) => {
   return (
-    <View
-      style={{
-        alignSelf: message?.isAIResponse ? "flex-start" : "flex-end",
-        maxWidth: "75%",
-        minWidth: 0, // Minimum is zero but will expand based on content
-        paddingHorizontal: 10, // Optional padding to ensure content readability
-        flexShrink: 1, // Shrinks to fit the content
-        borderWidth: 1,
-        borderColor: "black",
-      }}
+    <ScrollView
+      // style={{
+      //   clipPath:
+      //     "polygon(0% 0%, 100% 0%, 100% 75%, 100% 83%, 82% 74%, 0% 75%)",
+      // }}
+      className={`${
+        message?.isAIResponse
+          ? "self-start bg-blue-700"
+          : "self-end bg-purple-700"
+      } max-w-[75%] min-w-0 p-2 mt-4 flex-shrink-1 border rounded-md`}
     >
       <Text className="text-white">{message?.chatMessage}</Text>
-    </View>
+    </ScrollView>
   );
 };
