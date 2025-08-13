@@ -9,7 +9,16 @@ export default function RootLayout() {
     >
       <Stack.Screen name="index" />
       <Stack.Screen name="chatType/index" />
-      <Stack.Screen name="chats/index" />
+      <Stack.Screen
+        name="chats/index"
+        options={{
+          headerTitle: "",
+          headerShown: true,
+          headerBackTitle: "Back",
+          headerTintColor: "#a855f7",
+          headerStyle: { backgroundColor: "#1c1c1d" },
+        }}
+      />
     </Stack>
   );
 }
