@@ -1,5 +1,5 @@
 // components/MessageInput.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   TextInput,
@@ -10,14 +10,59 @@ import {
 } from "react-native";
 import { Feather } from "@expo/vector-icons"; // For paper plane icon
 
-export default function MessageInput({ onSend }) {
+import { initializeSocket, getSocket, disconnectSocket } from "../utils/socket";
+
+export default function MessageInput({
+  accessToken,
+  chatType,
+  setAllMessages,
+}) {
   const [message, setMessage] = useState("");
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    if (accessToken) {
+      const newSocket = initializeSocket(accessToken);
+      setSocket(newSocket);
+
+      // Listen for AI responses
+      newSocket.on("response", (aiMessage) => {
+        setAllMessages((prev) => [
+          ...prev,
+          {
+            _id: Date.now().toString(),
+            chatMessage: aiMessage,
+            isAIResponse: true,
+            isSaved: false,
+            sentAt: Date.now().toString(),
+          },
+        ]);
+      });
+    }
+
+    return () => {
+      disconnectSocket();
+    };
+  }, [accessToken]);
 
   const handleSend = () => {
-    if (message.trim()) {
-      onSend(message.trim());
-      setMessage("");
-    }
+    if (message.trim() === "") return;
+
+    // Send message to backend
+    socket.emit("sendMessage", message, chatType); // chatType = "chat" / "recipe" / "itinerary"
+
+    // Update local chat immediately
+    setAllMessages((prev) => [
+      ...prev,
+      {
+        _id: Date.now().toString(),
+        chatMessage: message,
+        isAIResponse: false,
+        isSaved: false,
+        sentAt: Date.now().toString(),
+      },
+    ]);
+    setMessage("");
   };
 
   return (

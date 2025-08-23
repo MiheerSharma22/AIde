@@ -1,11 +1,11 @@
 import { Text, ScrollView, ImageBackground } from "react-native";
 import { useEffect, useState } from "react";
-import { router, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import ChatBg from "@/assets/images/chatBg.png";
 
-// TODO: also import message card using alias import not relative import
-import { MessageCard } from "../../components/MessageCard";
+import { MessageCard } from "@/components/MessageCard";
 import { useAuthToken } from "@/hooks/useAuthToken";
+import MessageInput from "@/components/MessageInput";
 
 export default function Chats() {
   const { chatType } = useLocalSearchParams();
@@ -38,7 +38,7 @@ export default function Chats() {
     );
 
     const res = await data.json();
-    console.log("get all messages response: ", res);
+
     setAllMessages(res.data[chatTypeToResuLtKeyMap[chatType]]);
   };
 
@@ -55,8 +55,16 @@ export default function Chats() {
           ))}
         </ScrollView>
       ) : (
-        <Text>No Messages Yet! start asking.</Text>
+        <Text className="m-auto opacity-70 text-white text-xl font-semibold tracking-wider">
+          No messages yet! Start asking.
+        </Text>
       )}
+
+      <MessageInput
+        accessToken={accessToken}
+        chatType={chatType}
+        setAllMessages={setAllMessages}
+      />
     </ImageBackground>
   );
 }
