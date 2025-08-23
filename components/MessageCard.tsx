@@ -18,7 +18,7 @@ export const MessageCard = ({ message }: Props) => {
         message?.isAIResponse
           ? "self-start bg-[#368ccc]"
           : "self-end bg-[#5f6368]"
-      } max-w-[75%] min-w-0 p-2 mt-4 flex-shrink-1 rounded-md`}
+      } max-w-[75%] min-w-0 p-2 mb-5 flex-shrink-1 rounded-md`}
     >
       {/* <View className="absolute -right-0.5 bottom-[0px] bg-[#5f6368] rotate-45 h-3 w-2"></View> */}
       <Text className="text-white">{message?.chatMessage}</Text>

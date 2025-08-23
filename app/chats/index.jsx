@@ -1,5 +1,5 @@
 import { Text, ScrollView, ImageBackground } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import ChatBg from "@/assets/images/chatBg.png";
 
@@ -8,11 +8,12 @@ import { useAuthToken } from "@/hooks/useAuthToken";
 import MessageInput from "@/components/MessageInput";
 
 export default function Chats() {
+  const chatScrollRef = useRef();
   const { chatType } = useLocalSearchParams();
   const [allMessages, setAllMessages] = useState([]);
   const { accessToken } = useAuthToken();
 
-  const chatTypeToResuLtKeyMap = {
+  const chatTypeToResultKeyMap = {
     recipe: "allUserRecipes",
     chat: "allUserMessages",
     itinerary: "allUserItineraries",
@@ -23,6 +24,10 @@ export default function Chats() {
     chat: "/getAllChatMessages",
     itinerary: "/getAllItineraries",
   };
+
+  useEffect(() => {
+    chatScrollRef.current?.scrollToEnd({ animated: false });
+  }, [allMessages]);
 
   // fetch all the messages from the server
   const handleFetchAllChats = async () => {
@@ -39,7 +44,7 @@ export default function Chats() {
 
     const res = await data.json();
 
-    setAllMessages(res.data[chatTypeToResuLtKeyMap[chatType]]);
+    setAllMessages(res.data[chatTypeToResultKeyMap[chatType]]);
   };
 
   useEffect(() => {
@@ -49,7 +54,13 @@ export default function Chats() {
   return (
     <ImageBackground source={ChatBg} className="flex-1" resizeMode="cover">
       {allMessages?.length > 0 ? (
-        <ScrollView className="rounded-md flex-1 p-4">
+        <ScrollView
+          className="rounded-md flex-1 p-4"
+          ref={chatScrollRef}
+          onContentSizeChange={() =>
+            chatScrollRef.current?.scrollToEnd({ animated: false })
+          }
+        >
           {allMessages.map((message) => (
             <MessageCard key={message._id} message={message} />
           ))}

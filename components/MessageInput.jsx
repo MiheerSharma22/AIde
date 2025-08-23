@@ -31,7 +31,7 @@ export default function MessageInput({
           ...prev,
           {
             _id: Date.now().toString(),
-            chatMessage: aiMessage,
+            chatMessage: aiMessage.trim(),
             isAIResponse: true,
             isSaved: false,
             sentAt: Date.now().toString(),
@@ -56,7 +56,7 @@ export default function MessageInput({
       ...prev,
       {
         _id: Date.now().toString(),
-        chatMessage: message,
+        chatMessage: message.trim(),
         isAIResponse: false,
         isSaved: false,
         sentAt: Date.now().toString(),
