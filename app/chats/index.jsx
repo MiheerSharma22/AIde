@@ -1,4 +1,10 @@
-import { Text, ScrollView, ImageBackground, View } from "react-native";
+import {
+  Text,
+  ScrollView,
+  ImageBackground,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
@@ -78,12 +84,12 @@ export default function Chats() {
     >
       {/* scroll to bottom button */}
       {!isAtBottom && (
-        <View
-          className="absolute bottom-14 right-2 rounded-full p-3"
-          onTouchEnd={() => scrollToBottom(true)}
+        <TouchableOpacity
+          className="absolute bottom-20 right-2 rounded-full p-3 bg-[#47474b] z-[15]"
+          onPress={() => scrollToBottom(true)}
         >
-          <Feather name="chevron-down" size={24} color="black" />
-        </View>
+          <Feather name="chevron-down" size={24} color="white" />
+        </TouchableOpacity>
       )}
 
       {/* messages */}
