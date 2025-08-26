@@ -13,6 +13,7 @@ import { useAuthToken } from "@/hooks/useAuthToken";
 import MessageInput from "@/components/MessageInput";
 import { MessageCard } from "@/components/MessageCard";
 import SkeletonLoader from "@/components/SkeletonLoader";
+import AiReplyLoader from "@/components/AiReplyLoader";
 
 export default function Chats() {
   const chatScrollRef = useRef();
@@ -20,7 +21,9 @@ export default function Chats() {
   const [allMessages, setAllMessages] = useState([]);
   const { accessToken } = useAuthToken();
   const [isAtBottom, setIsAtBottom] = useState(true);
+
   const [isLoading, setIsLoading] = useState(false);
+  const [isAwaitingAIReply, setIsAwaitingAIReply] = useState(false);
 
   const chatTypeToResultKeyMap = {
     recipe: "allUserRecipes",
@@ -110,6 +113,8 @@ export default function Chats() {
           {allMessages.map((message) => (
             <MessageCard key={message._id} message={message} />
           ))}
+
+          {isAwaitingAIReply && <AiReplyLoader />}
         </ScrollView>
       ) : (
         <Text className="m-auto opacity-70 text-white text-xl font-semibold tracking-wider">
@@ -122,6 +127,8 @@ export default function Chats() {
         chatType={chatType}
         setAllMessages={setAllMessages}
         isLoading={isLoading}
+        isAwaitingAIReply={isAwaitingAIReply}
+        setIsAwaitingAIReply={setIsAwaitingAIReply}
       />
     </ImageBackground>
   );

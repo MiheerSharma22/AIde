@@ -1,5 +1,5 @@
 // components/MessageInput.tsx
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   TextInput,
@@ -17,6 +17,8 @@ export default function MessageInput({
   chatType,
   setAllMessages,
   isLoading,
+  isAwaitingAIReply,
+  setIsAwaitingAIReply,
 }) {
   const [message, setMessage] = useState("");
   const [socket, setSocket] = useState(null);
@@ -38,6 +40,8 @@ export default function MessageInput({
             sentAt: Date.now().toString(),
           },
         ]);
+
+        setIsAwaitingAIReply(false);
       });
     }
 
@@ -64,6 +68,8 @@ export default function MessageInput({
       },
     ]);
     setMessage("");
+
+    setIsAwaitingAIReply(true);
   };
 
   return (
@@ -80,7 +86,7 @@ export default function MessageInput({
           value={message}
           onChangeText={setMessage}
           multiline
-          editable={!isLoading}
+          editable={!isLoading || !isAwaitingAIReply}
         />
 
         <TouchableOpacity onPress={handleSend} style={styles.sendButton}>
