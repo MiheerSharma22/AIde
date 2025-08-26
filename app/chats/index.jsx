@@ -2,7 +2,6 @@ import {
   Text,
   ScrollView,
   ImageBackground,
-  View,
   TouchableOpacity,
 } from "react-native";
 import { useEffect, useRef, useState } from "react";
@@ -10,9 +9,10 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
 import ChatBg from "@/assets/images/chatBg.png";
 
-import { MessageCard } from "@/components/MessageCard";
 import { useAuthToken } from "@/hooks/useAuthToken";
 import MessageInput from "@/components/MessageInput";
+import { MessageCard } from "@/components/MessageCard";
+import SkeletonLoader from "@/components/SkeletonLoader";
 
 export default function Chats() {
   const chatScrollRef = useRef();
@@ -20,6 +20,7 @@ export default function Chats() {
   const [allMessages, setAllMessages] = useState([]);
   const { accessToken } = useAuthToken();
   const [isAtBottom, setIsAtBottom] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const chatTypeToResultKeyMap = {
     recipe: "allUserRecipes",
@@ -56,6 +57,7 @@ export default function Chats() {
 
   // fetch all the messages from the server
   const handleFetchAllChats = async () => {
+    setIsLoading(true);
     const data = await fetch(
       `${process.env.EXPO_PUBLIC_BASE_URL}${chatTypeToAPIEndpointMap[chatType]}`,
       {
@@ -70,6 +72,8 @@ export default function Chats() {
     const res = await data.json();
 
     setAllMessages(res.data[chatTypeToResultKeyMap[chatType]]);
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -91,9 +95,10 @@ export default function Chats() {
           <Feather name="chevron-down" size={24} color="white" />
         </TouchableOpacity>
       )}
-
       {/* messages */}
-      {allMessages?.length > 0 ? (
+      {isLoading ? (
+        <SkeletonLoader />
+      ) : allMessages?.length > 0 ? (
         <ScrollView
           className="rounded-md flex-1 p-4"
           ref={chatScrollRef}
@@ -116,6 +121,7 @@ export default function Chats() {
         accessToken={accessToken}
         chatType={chatType}
         setAllMessages={setAllMessages}
+        isLoading={isLoading}
       />
     </ImageBackground>
   );

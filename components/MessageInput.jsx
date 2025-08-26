@@ -16,6 +16,7 @@ export default function MessageInput({
   accessToken,
   chatType,
   setAllMessages,
+  isLoading,
 }) {
   const [message, setMessage] = useState("");
   const [socket, setSocket] = useState(null);
@@ -79,6 +80,7 @@ export default function MessageInput({
           value={message}
           onChangeText={setMessage}
           multiline
+          editable={!isLoading}
         />
 
         <TouchableOpacity onPress={handleSend} style={styles.sendButton}>
