@@ -1,12 +1,12 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { View, Text, TouchableOpacity, ImageBackground } from "react-native";
+import { Text, TouchableOpacity, ImageBackground } from "react-native";
 
 import homeScreenBG from "@/assets/images/AIde-homescreen-bg.png";
-import { Sidebar } from "./Drawer";
+import { useAuthToken } from "@/hooks/useAuthToken";
 
 export default function ChatType() {
   const router = useRouter();
-  const { token } = useLocalSearchParams();
+  const { accessToken } = useAuthToken();
 
   const types = [
     {
@@ -26,7 +26,7 @@ export default function ChatType() {
   const handleSettingChatType = (type) => {
     router.push({
       pathname: "/chats",
-      params: { token: token, chatType: type },
+      params: { token: accessToken, chatType: type },
     });
   };
 

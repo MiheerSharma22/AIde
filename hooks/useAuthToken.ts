@@ -32,5 +32,9 @@ export const useAuthToken = () => {
     await AsyncStorage.setItem("userDetails", JSON.stringify(user));
   };
 
-  return { accessToken, setUserAndAccessToken, userDetails };
+  const logoutUser = async () => {
+    await AsyncStorage.clear();
+  };
+
+  return { accessToken, setUserAndAccessToken, userDetails, logoutUser };
 };
