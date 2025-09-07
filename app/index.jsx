@@ -24,19 +24,19 @@ import { useAuthToken } from "@/hooks/useAuthToken";
 
 WebBrowser.maybeCompleteAuthSession();
 
-const {
-  EXPO_PUBLIC_GOOGLE_CLIENT_ID,
-  EXPO_PUBLIC_ANDROID_CLIENT_ID,
-  EXPO_PUBLIC_IOS_CLIENT_ID,
-  EXPO_PUBLIC_BASE_URL,
-} = process.env;
-
-console.log("All ENV keys: ", Object.keys(process.env));
-
 export default function Index() {
   const [showWelcomeText, setShowWelcomeText] = useState(false);
   const router = useRouter();
   const { accessToken, setUserAndAccessToken } = useAuthToken();
+
+  const {
+    EXPO_PUBLIC_GOOGLE_CLIENT_ID,
+    EXPO_PUBLIC_ANDROID_CLIENT_ID,
+    EXPO_PUBLIC_IOS_CLIENT_ID,
+    EXPO_PUBLIC_BASE_URL,
+  } = process.env;
+
+  console.log("All ENV keys: ", Object.keys(process.env));
 
   useEffect(() => {
     GoogleSignin.configure({
