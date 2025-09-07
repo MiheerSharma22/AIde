@@ -36,7 +36,7 @@ export default function Index() {
     EXPO_PUBLIC_BASE_URL,
   } = process.env;
 
-  console.log("All ENV keys: ", Object.keys(process.env));
+  console.log("Google keys: ", process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID);
 
   useEffect(() => {
     GoogleSignin.configure({
