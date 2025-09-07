@@ -29,25 +29,25 @@ export default function Index() {
   const router = useRouter();
   const { accessToken, setUserAndAccessToken } = useAuthToken();
 
-  const {
-    EXPO_PUBLIC_GOOGLE_CLIENT_ID,
-    EXPO_PUBLIC_ANDROID_CLIENT_ID,
-    EXPO_PUBLIC_IOS_CLIENT_ID,
-    EXPO_PUBLIC_BASE_URL,
-  } = process.env;
+  // const {
+  //   EXPO_PUBLIC_GOOGLE_CLIENT_ID,
+  //   EXPO_PUBLIC_ANDROID_CLIENT_ID,
+  //   EXPO_PUBLIC_IOS_CLIENT_ID,
+  //   EXPO_PUBLIC_BASE_URL,
+  // } = process.env;
 
   console.log("Google keys: ", process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID);
 
   useEffect(() => {
     GoogleSignin.configure({
-      webClientId: EXPO_PUBLIC_GOOGLE_CLIENT_ID,
+      webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
 
       ...(Platform.OS === "ios" && {
-        iosClientId: EXPO_PUBLIC_IOS_CLIENT_ID,
+        iosClientId: process.env.EXPO_PUBLIC_IOS_CLIENT_ID,
       }),
 
       ...(Platform.OS === "android" && {
-        androidClientId: EXPO_PUBLIC_ANDROID_CLIENT_ID,
+        androidClientId: process.env.EXPO_PUBLIC_ANDROID_CLIENT_ID,
       }),
 
       profileImageSize: 150,
@@ -69,9 +69,9 @@ export default function Index() {
 
   console.log(
     "Google creds for o auth: ",
-    EXPO_PUBLIC_GOOGLE_CLIENT_ID,
-    EXPO_PUBLIC_ANDROID_CLIENT_ID,
-    EXPO_PUBLIC_IOS_CLIENT_ID
+    process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
+    process.env.EXPO_PUBLIC_ANDROID_CLIENT_ID,
+    process.env.EXPO_PUBLIC_IOS_CLIENT_ID
   );
 
   const handleGoogleSignIn = async () => {
@@ -87,14 +87,20 @@ export default function Index() {
         const { idToken, user } = response.data;
 
         console.log("\nbefor calling google endpoint on BE");
-        console.log("\nendpoint url BE login: ", EXPO_PUBLIC_BASE_URL);
+        console.log(
+          "\nendpoint url BE login: ",
+          process.env.EXPO_PUBLIC_BASE_URL
+        );
 
         // Send the ID token to the backend
-        const res = await fetch(`${EXPO_PUBLIC_BASE_URL}/auth/google`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ token: idToken }),
-        });
+        const res = await fetch(
+          `${process.env.EXPO_PUBLIC_BASE_URL}/auth/google`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token: idToken }),
+          }
+        );
 
         console.log("\nafter getting response from BE on sign in: ", res);
 
