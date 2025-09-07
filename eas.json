@@ -12,7 +12,14 @@
       "distribution": "internal"
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PUBLIC_GOOGLE_CLIENT_ID": "461496237469-5c706c8bjp3recp74esdrd0l0dbs9o7o.apps.googleusercontent.com",
+        "EXPO_PUBLIC_ANDROID_CLIENT_ID": "461496237469-lnfumlgl3aqm8tan4lvdn6c9vt1k1s6b.apps.googleusercontent.com",
+        "EXPO_PUBLIC_IOS_CLIENT_ID": "461496237469-66kef5ft6e3sqf5u944l8o5q1tmj0131.apps.googleusercontent.com",
+        "EXPO_PUBLIC_BASE_URL": "https://chatbot-app-backend-s11k.onrender.com/",
+        "EXPO_PUBLIC_SCHEME": "aide://"
+      }
     }
   },
   "submit": {
