@@ -127,7 +127,7 @@ export default function Index() {
     //   className="gap-[5rem] items-center justify-around h-[100%] w-[100%] flex-1"
     //   resizeMode="cover"
     // >
-    <>
+    <View className="gap-[5rem] items-center justify-around h-[100%] w-[100%] flex-1">
       {/* logo and welcome text */}
       <View className="gap-[20px] w-[80%] origin-center justify-center items-center">
         {/* logo image */}
@@ -148,7 +148,7 @@ export default function Index() {
           handleGoogleSignIn();
         }}
       />
-    </>
+    </View>
     // </ImageBackground>
   );
 }
