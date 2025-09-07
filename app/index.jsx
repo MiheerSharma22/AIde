@@ -66,12 +66,18 @@ export default function Index() {
   }, [accessToken]);
 
   const handleGoogleSignIn = async () => {
+    console.log("inside google sign in method");
     try {
       // await GoogleSignin.hasPlayServices();
       const response = await GoogleSignin.signIn();
+      console.log("response: ", response);
 
       if (isSuccessResponse(response)) {
+        console.log("inside isSuccessResponse if block");
+
         const { idToken, user } = response.data;
+
+        console.log("befor calling google endpoint on BE");
 
         // Send the ID token to the backend
         const res = await fetch(`${EXPO_PUBLIC_BASE_URL}/auth/google`, {
@@ -80,13 +86,17 @@ export default function Index() {
           body: JSON.stringify({ token: idToken }),
         });
 
+        console.log("after getting response from BE on sign in: ", res);
+
         const data = await res.json();
+
+        console.log("data from res: ", data);
+
         if (data.success) {
           setUserAndAccessToken(data.accessToken, user);
 
           router.push({
             pathname: "/chatType",
-            // params: { token: data.accessToken },
           });
         }
       } else {
@@ -127,7 +137,7 @@ export default function Index() {
     //   className="gap-[5rem] items-center justify-around h-[100%] w-[100%] flex-1"
     //   resizeMode="cover"
     // >
-    <View className="gap-[5rem] items-center justify-around h-[100%] w-[100%] flex-1">
+    <View className="gap-[5rem] items-center justify-around h-[100%] w-[100%] flex-1 bg-black">
       {/* logo and welcome text */}
       <View className="gap-[20px] w-[80%] origin-center justify-center items-center">
         {/* logo image */}
