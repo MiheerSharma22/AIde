@@ -112,21 +112,22 @@ export default function Index() {
     }
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      setShowWelcomeText(true);
-    }, [700]);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setShowWelcomeText(true);
+  //   }, [700]);
+  // }, []);
 
   // to call the fetch all chats api when received token from google after user tries to login
 
   return (
     // background image container
-    <ImageBackground
-      source={homeScreenBG} // You can use the imported image directly
-      className="gap-[5rem] items-center justify-around h-[100%] w-[100%] flex-1"
-      resizeMode="cover"
-    >
+    // <ImageBackground
+    //   source={homeScreenBG} // You can use the imported image directly
+    //   className="gap-[5rem] items-center justify-around h-[100%] w-[100%] flex-1"
+    //   resizeMode="cover"
+    // >
+    <>
       {/* logo and welcome text */}
       <View className="gap-[20px] w-[80%] origin-center justify-center items-center">
         {/* logo image */}
@@ -147,6 +148,7 @@ export default function Index() {
           handleGoogleSignIn();
         }}
       />
-    </ImageBackground>
+    </>
+    // </ImageBackground>
   );
 }
