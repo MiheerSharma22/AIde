@@ -65,6 +65,13 @@ export default function Index() {
     checkUser();
   }, [accessToken]);
 
+  console.log(
+    "Google creds for o auth: ",
+    EXPO_PUBLIC_GOOGLE_CLIENT_ID,
+    EXPO_PUBLIC_ANDROID_CLIENT_ID,
+    EXPO_PUBLIC_IOS_CLIENT_ID
+  );
+
   const handleGoogleSignIn = async () => {
     console.log("inside google sign in method");
     try {
@@ -73,11 +80,12 @@ export default function Index() {
       console.log("response: ", response);
 
       if (isSuccessResponse(response)) {
-        console.log("inside isSuccessResponse if block");
+        console.log("\ninside isSuccessResponse if block");
 
         const { idToken, user } = response.data;
 
-        console.log("befor calling google endpoint on BE");
+        console.log("\nbefor calling google endpoint on BE");
+        console.log("\nendpoint url BE login: ", EXPO_PUBLIC_BASE_URL);
 
         // Send the ID token to the backend
         const res = await fetch(`${EXPO_PUBLIC_BASE_URL}/auth/google`, {
@@ -86,11 +94,11 @@ export default function Index() {
           body: JSON.stringify({ token: idToken }),
         });
 
-        console.log("after getting response from BE on sign in: ", res);
+        console.log("\nafter getting response from BE on sign in: ", res);
 
         const data = await res.json();
 
-        console.log("data from res: ", data);
+        console.log("\ndata from res: ", data);
 
         if (data.success) {
           setUserAndAccessToken(data.accessToken, user);
@@ -122,11 +130,11 @@ export default function Index() {
     }
   };
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setShowWelcomeText(true);
-  //   }, [700]);
-  // }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      setShowWelcomeText(true);
+    }, [700]);
+  }, []);
 
   // to call the fetch all chats api when received token from google after user tries to login
 
