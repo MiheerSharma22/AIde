@@ -31,6 +31,8 @@ const {
   EXPO_PUBLIC_BASE_URL,
 } = process.env;
 
+console.log("All ENV keys: ", Object.keys(process.env));
+
 export default function Index() {
   const [showWelcomeText, setShowWelcomeText] = useState(false);
   const router = useRouter();
@@ -152,11 +154,11 @@ export default function Index() {
         <Image source={logo} className="h-[80px]" resizeMode="contain" />
 
         {/* welcome screen text */}
-        {showWelcomeText && (
-          <Text className="text-[#7B4FFA] text-[15px] font-bold opacity-70 tracking-wider">
-            Your own AI helper.
-          </Text>
-        )}
+        {/* {showWelcomeText && ( */}
+        <Text className="text-[#7B4FFA] text-[15px] font-bold opacity-70 tracking-wider">
+          Your own AI helper.
+        </Text>
+        {/* )} */}
       </View>
 
       {/* sign in with google button */}
