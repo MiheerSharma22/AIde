@@ -1,7 +1,7 @@
 import { io } from "socket.io-client";
 
 // Change this to your backend URL
-const SOCKET_URL = "http://localhost:4040";
+const SOCKET_URL = `${process.env.EXPO_PUBLIC_BASE_URL}`;
 
 let socket;
 
