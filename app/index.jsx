@@ -36,8 +36,6 @@ export default function Index() {
   //   EXPO_PUBLIC_BASE_URL,
   // } = process.env;
 
-  console.log("Google keys: ", process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID);
-
   useEffect(() => {
     GoogleSignin.configure({
       webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
@@ -67,30 +65,13 @@ export default function Index() {
     checkUser();
   }, [accessToken]);
 
-  console.log(
-    "Google creds for o auth: ",
-    process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
-    process.env.EXPO_PUBLIC_ANDROID_CLIENT_ID,
-    process.env.EXPO_PUBLIC_IOS_CLIENT_ID
-  );
-
   const handleGoogleSignIn = async () => {
-    console.log("inside google sign in method");
     try {
       // await GoogleSignin.hasPlayServices();
       const response = await GoogleSignin.signIn();
-      console.log("response: ", response);
 
       if (isSuccessResponse(response)) {
-        console.log("\ninside isSuccessResponse if block");
-
         const { idToken, user } = response.data;
-
-        console.log("\nbefor calling google endpoint on BE");
-        console.log(
-          "\nendpoint url BE login: ",
-          process.env.EXPO_PUBLIC_BASE_URL
-        );
 
         // Send the ID token to the backend
         const res = await fetch(
@@ -102,11 +83,7 @@ export default function Index() {
           }
         );
 
-        console.log("\nafter getting response from BE on sign in: ", res);
-
         const data = await res.json();
-
-        console.log("\ndata from res: ", data);
 
         if (data.success) {
           setUserAndAccessToken(data.accessToken, user);
