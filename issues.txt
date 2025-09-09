@@ -18,3 +18,12 @@ const token = await SecureStore.getItemAsync("accessToken");
 
 
 - use alias import not relative import
+
+
+"eas build -p android"
+"npx expo install --check"
+
+cd android
+./gradlew assembleRelease
+
+npx react-native run-android
