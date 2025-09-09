@@ -12,7 +12,7 @@ const SkeletonLoader = () => {
 
   useEffect(() => {
     opacity.value = withRepeat(
-      withTiming(1, { duration: 10200 }),
+      withTiming(1, { duration: 1500 }),
       -1,
       true // reverse
     );
