@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 export const useAuthToken = () => {
   const [accessToken, setAccessToken] = useState("");
@@ -32,9 +33,25 @@ export const useAuthToken = () => {
     await AsyncStorage.setItem("userDetails", JSON.stringify(user));
   };
 
-  const logoutUser = async () => {
+
+
+const logoutUser = async () => {
+  try {
+    // Sign out from Google
+    await GoogleSignin.signOut(); // clears session but keeps permissions
+
+    // If you want a full disconnect (revoke access token):
+    // await GoogleSignin.revokeAccess();
+
+    // Clear app’s local storage
     await AsyncStorage.clear();
-  };
+
+    console.log("User logged out successfully");
+  } catch (error) {
+    console.error("Error logging out:", error);
+  }
+};
+
 
   return { accessToken, setUserAndAccessToken, userDetails, logoutUser };
 };
