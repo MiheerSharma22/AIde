@@ -7,6 +7,7 @@ import {
   Image,
   Button,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 
 // web browser inside our application so we dont have to leave the app to google sign in
@@ -25,7 +26,6 @@ import { useAuthToken } from "@/hooks/useAuthToken";
 WebBrowser.maybeCompleteAuthSession();
 
 export default function Index() {
-  const [showWelcomeText, setShowWelcomeText] = useState(false);
   const router = useRouter();
   const { accessToken, setUserAndAccessToken } = useAuthToken();
 
@@ -115,14 +115,6 @@ export default function Index() {
     }
   };
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setShowWelcomeText(true);
-  //   }, [700]);
-  // }, []);
-
-  // to call the fetch all chats api when received token from google after user tries to login
-
   return (
     // background image container
     <ImageBackground
@@ -136,21 +128,22 @@ export default function Index() {
         {/* logo image */}
         <Image source={logo} className="h-[80px]" resizeMode="contain" />
 
-        {/* welcome screen text */}
-        {/* {showWelcomeText && ( */}
         <Text className="text-[#7B4FFA] text-[15px] font-bold opacity-70 tracking-wider">
           Your own AI helper.
         </Text>
-        {/* )} */}
       </View>
 
       {/* sign in with google button */}
-      <Button
-        title="Sign in with Google"
-        onPress={() => {
-          handleGoogleSignIn();
-        }}
-      />
+      {signInLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <Button
+          title="Sign in with Google"
+          onPress={() => {
+            handleGoogleSignIn();
+          }}
+        />
+      )}
       {/* </View> */}
     </ImageBackground>
   );
