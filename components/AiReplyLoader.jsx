@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#368ccc", // Match your AI bubble color
     borderRadius: 6,
     alignSelf: "flex-start",
-    marginBottom: "1.25rem",
+    marginBottom: 12, // ✅ Fixed spacing so it's not cut off
+    marginTop: 6,
   },
   dot: {
     width: 6,
