@@ -1,14 +1,15 @@
 import {
   Text,
-  ScrollView,
+  FlatList,
   ImageBackground,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  Keyboard,
 } from "react-native";
 import { useEffect, useRef, useState } from "react";
-import { useLocalSearchParams, useRouter } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
 import ChatBg from "@/assets/images/chatBg.png";
-
 import { useAuthToken } from "@/hooks/useAuthToken";
 import MessageInput from "@/components/MessageInput";
 import { MessageCard } from "@/components/MessageCard";
@@ -16,12 +17,11 @@ import SkeletonLoader from "@/components/SkeletonLoader";
 import AiReplyLoader from "@/components/AiReplyLoader";
 
 export default function Chats() {
-  const chatScrollRef = useRef();
+  const flatListRef = useRef();
   const { chatType } = useLocalSearchParams();
   const [allMessages, setAllMessages] = useState([]);
   const { accessToken } = useAuthToken();
   const [isAtBottom, setIsAtBottom] = useState(true);
-
   const [isLoading, setIsLoading] = useState(false);
   const [isAwaitingAIReply, setIsAwaitingAIReply] = useState(false);
 
@@ -37,28 +37,20 @@ export default function Chats() {
     itinerary: "/getAllItineraries",
   };
 
-  // to show the lastest messages (scroll at the every bottom of list)
+  // Scroll to bottom
+  const scrollToBottom = (animated = true) => {
+    flatListRef.current?.scrollToEnd({ animated });
+  };
+
+  // Auto-scroll when keyboard opens
   useEffect(() => {
-    scrollToBottom();
-  }, [allMessages]);
+    const showSub = Keyboard.addListener("keyboardDidShow", () => {
+      scrollToBottom(true);
+    });
+    return () => showSub.remove();
+  }, []);
 
-  // function to check if the user is at the very end of the scroll (latest message) or not
-  const handleScroll = (event) => {
-    const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
-
-    // Check if user is at bottom (5px tolerance)
-    const isBottom =
-      layoutMeasurement.height + contentOffset.y >= contentSize.height - 5;
-
-    setIsAtBottom(isBottom);
-  };
-
-  // function to scroll to bottom of the messages list
-  const scrollToBottom = (animatedScroll = false) => {
-    chatScrollRef.current?.scrollToEnd({ animated: animatedScroll });
-  };
-
-  // fetch all the messages from the server
+  // Fetch all chats
   const handleFetchAllChats = async () => {
     setIsLoading(true);
     const data = await fetch(
@@ -71,11 +63,8 @@ export default function Chats() {
         },
       }
     );
-
     const res = await data.json();
-
     setAllMessages(res.data[chatTypeToResultKeyMap[chatType]]);
-
     setIsLoading(false);
   };
 
@@ -89,47 +78,54 @@ export default function Chats() {
       className="flex-1 relative"
       resizeMode="cover"
     >
-      {/* scroll to bottom button */}
-      {!isAtBottom && (
-        <TouchableOpacity
-          className="absolute bottom-20 right-2 rounded-full p-3 bg-[#47474b] z-[15]"
-          onPress={() => scrollToBottom(true)}
-        >
-          <Feather name="chevron-down" size={24} color="white" />
-        </TouchableOpacity>
-      )}
-      {/* messages */}
-      {isLoading ? (
-        <SkeletonLoader />
-      ) : allMessages?.length > 0 ? (
-        <ScrollView
-          className="rounded-md flex-1 p-4"
-          ref={chatScrollRef}
-          onContentSizeChange={() =>
-            chatScrollRef.current?.scrollToEnd({ animated: false })
-          }
-          onScroll={handleScroll}
-        >
-          {allMessages.map((message) => (
-            <MessageCard key={message._id} message={message} />
-          ))}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={90}
+      >
+        {!isAtBottom && (
+          <TouchableOpacity
+            className="absolute bottom-20 right-2 rounded-full p-3 bg-[#47474b] z-[15]"
+            onPress={() => scrollToBottom(true)}
+          >
+            <Feather name="chevron-down" size={24} color="white" />
+          </TouchableOpacity>
+        )}
 
-          {isAwaitingAIReply && <AiReplyLoader />}
-        </ScrollView>
-      ) : (
-        <Text className="m-auto opacity-70 text-white text-xl font-semibold tracking-wider">
-          No messages yet! Start asking.
-        </Text>
-      )}
+        {isLoading ? (
+          <SkeletonLoader />
+        ) : allMessages?.length > 0 ? (
+          <FlatList
+            ref={flatListRef}
+            data={allMessages}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => <MessageCard message={item} />}
+            onContentSizeChange={() => scrollToBottom(false)}
+            onScroll={(e) => {
+              const { layoutMeasurement, contentOffset, contentSize } =
+                e.nativeEvent;
+              const isBottom =
+                layoutMeasurement.height + contentOffset.y >=
+                contentSize.height - 5;
+              setIsAtBottom(isBottom);
+            }}
+            ListFooterComponent={isAwaitingAIReply ? <AiReplyLoader /> : null}
+          />
+        ) : (
+          <Text className="m-auto opacity-70 text-white text-xl font-semibold tracking-wider">
+            No messages yet! Start asking.
+          </Text>
+        )}
 
-      <MessageInput
-        accessToken={accessToken}
-        chatType={chatType}
-        setAllMessages={setAllMessages}
-        isLoading={isLoading}
-        isAwaitingAIReply={isAwaitingAIReply}
-        setIsAwaitingAIReply={setIsAwaitingAIReply}
-      />
+        <MessageInput
+          accessToken={accessToken}
+          chatType={chatType}
+          setAllMessages={setAllMessages}
+          isLoading={isLoading}
+          isAwaitingAIReply={isAwaitingAIReply}
+          setIsAwaitingAIReply={setIsAwaitingAIReply}
+        />
+      </KeyboardAvoidingView>
     </ImageBackground>
   );
 }
