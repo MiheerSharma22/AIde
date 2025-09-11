@@ -28,6 +28,7 @@ WebBrowser.maybeCompleteAuthSession();
 export default function Index() {
   const router = useRouter();
   const { accessToken, setUserAndAccessToken } = useAuthToken();
+  const [signInLoading, setSignInLoading] = useState(false);
 
   // const {
   //   EXPO_PUBLIC_GOOGLE_CLIENT_ID,
@@ -67,6 +68,7 @@ export default function Index() {
 
   const handleGoogleSignIn = async () => {
     try {
+      setSignInLoading(true);
       // await GoogleSignin.hasPlayServices();
       const response = await GoogleSignin.signIn();
 
@@ -95,6 +97,7 @@ export default function Index() {
       } else {
         console.error("API not providing expected response!");
       }
+      setSignInLoading(false);
     } catch (error) {
       if (isErrorWithCode(error)) {
         switch (error.code) {
@@ -112,6 +115,7 @@ export default function Index() {
           "An error occured in google sign in but not related to it"
         );
       }
+      setSignInLoading(false);
     }
   };
 
