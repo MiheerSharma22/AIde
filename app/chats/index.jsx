@@ -8,6 +8,7 @@ import {
   Keyboard,
 } from "react-native";
 import { useEffect, useRef, useState } from "react";
+import { useLocalSearchParams } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
 import ChatBg from "@/assets/images/chatBg.png";
 import { useAuthToken } from "@/hooks/useAuthToken";
