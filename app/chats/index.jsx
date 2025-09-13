@@ -98,6 +98,7 @@ export default function Chats() {
         ) : allMessages?.length > 0 ? (
           <FlatList
             ref={flatListRef}
+            className="pt-5"
             data={allMessages}
             keyExtractor={(item) => item._id}
             renderItem={({ item }) => <MessageCard message={item} />}
