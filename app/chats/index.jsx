@@ -81,8 +81,8 @@ export default function Chats() {
     >
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={90}
+        behavior={Platform.OS === "ios" ? "padding" : undefined} // don't use "height" on Android
+        keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
       >
         {!isAtBottom && (
           <TouchableOpacity
@@ -101,15 +101,26 @@ export default function Chats() {
             data={allMessages}
             keyExtractor={(item) => item._id}
             renderItem={({ item }) => <MessageCard message={item} />}
-            onContentSizeChange={() => scrollToBottom(false)}
+            // Auto-scroll when new messages come in
+            onContentSizeChange={() => {
+              if (isAtBottom) {
+                scrollToBottom(true); // true = smooth scroll
+              }
+            }}
+            // Detect if user is at the bottom or not
             onScroll={(e) => {
               const { layoutMeasurement, contentOffset, contentSize } =
                 e.nativeEvent;
               const isBottom =
                 layoutMeasurement.height + contentOffset.y >=
-                contentSize.height - 5;
+                contentSize.height - 20; // allow little leeway
               setIsAtBottom(isBottom);
             }}
+            scrollEventThrottle={16} // smoother scroll detection
+            // Ensure FlatList sticks to bottom when keyboard opens
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="on-drag"
+            inverted={false} // keep normal order, not inverted
             ListFooterComponent={isAwaitingAIReply ? <AiReplyLoader /> : null}
           />
         ) : (
