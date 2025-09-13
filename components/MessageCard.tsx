@@ -16,8 +16,8 @@ export const MessageCard = ({ message }: Props) => {
     <View
       className={`relative ${
         message?.isAIResponse
-          ? "self-start bg-[#368ccc]"
-          : "self-end bg-[#5f6368]"
+          ? "self-start bg-[#368ccc] ml-2"
+          : "self-end bg-[#5f6368] mr-2"
       } max-w-[75%] min-w-0 p-2 mb-5 flex-shrink-1 rounded-md`}
     >
       {/* <View className="absolute -right-0.5 bottom-[0px] bg-[#5f6368] rotate-45 h-3 w-2"></View> */}
