@@ -119,7 +119,7 @@ export default function Chats() {
             scrollEventThrottle={16} // smoother scroll detection
             // Ensure FlatList sticks to bottom when keyboard opens
             keyboardShouldPersistTaps="handled"
-            keyboardDismissMode="on-drag"
+            keyboardDismissMode="none"
             inverted={false} // keep normal order, not inverted
             ListFooterComponent={isAwaitingAIReply ? <AiReplyLoader /> : null}
           />
