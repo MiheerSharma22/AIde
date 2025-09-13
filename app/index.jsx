@@ -90,7 +90,7 @@ export default function Index() {
         if (data.success) {
           setUserAndAccessToken(data.accessToken, user);
 
-          router.push({
+          router.replace({
             pathname: "/chatType",
           });
         }
