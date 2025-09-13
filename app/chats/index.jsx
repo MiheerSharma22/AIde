@@ -113,7 +113,7 @@ export default function Chats() {
                 e.nativeEvent;
               const isBottom =
                 layoutMeasurement.height + contentOffset.y >=
-                contentSize.height - 20; // allow little leeway
+                contentSize.height - 5;
               setIsAtBottom(isBottom);
             }}
             scrollEventThrottle={16} // smoother scroll detection
