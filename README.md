@@ -56,10 +56,10 @@ The app provides a **real-time, low-latency chat experience** using WebSockets a
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/aide-chat-frontend.git
+git clone https://github.com/MiheerSharma22/AIde.git
 
 # Navigate into the project directory
-cd aide-chat-frontend
+cd AIde
 
 # Install dependencies
 npm install
