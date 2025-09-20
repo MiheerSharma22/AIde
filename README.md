@@ -1,6 +1,6 @@
 # AIde – Your own AI helper
 
-AIde Chat is a **context-aware AI chat application** built with React Native and powered by a MERN stack backend.  
+AIde is a **context-aware AI chat application** built with React Native and powered by a MERN stack backend.  
 It delivers personalized AI conversations across three categories:
 
 - **Recipe Assistant** – Get cooking guidance and meal ideas.
