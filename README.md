@@ -32,7 +32,7 @@ The app provides a **real-time, low-latency chat experience** using WebSockets a
 
 - **Frontend:** React Native (Expo), Nativewind
 - **Backend:** Node.js, Express.js, MongoDB, Mongoose
-- **Authentication:** Google OAuth
+- **Authentication & Authorization:** Google OAuth, JWT
 - **Real-Time Messaging:** Socket.IO
 - **Testing:** Postman
 - **Deployment:** Android APK
