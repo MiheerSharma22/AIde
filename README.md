@@ -9,9 +9,7 @@ It delivers personalized AI conversations across three categories:
 
 The app provides a **real-time, low-latency chat experience** using WebSockets and supports **Google OAuth login** for secure authentication.
 
----
-
-## ✨ Features
+## Features
 
 - 🔐 **Google OAuth Login** – Simple and secure authentication.
 - 🗂️ **Chat Categories** – Recipe, Itinerary, and General Assistance.
@@ -19,8 +17,6 @@ The app provides a **real-time, low-latency chat experience** using WebSockets a
 - 💾 **Persistent Conversations** – User chats are loaded by type.
 - ⚡ **Real-Time Messaging** – Bi-directional communication via WebSockets.
 - 📱 **Cross-Platform** – Optimized React Native app for Android (APK provided).
-
----
 
 <!-- ## 📸 Screenshots   -->
 
@@ -32,17 +28,13 @@ The app provides a **real-time, low-latency chat experience** using WebSockets a
 
 - if asked, allow installation from unknown sources on your android device.
 
----
-
-## 🚀 Tech Stack
+## Tech Stack
 
 - **Frontend:** React Native (Expo), Context API
 - **Backend:** Node.js, Express.js, MongoDB
 - **Authentication:** Google OAuth
 - **Real-Time Messaging:** Socket.IO
 - **Deployment:** Android APK
-
----
 
 ## Installation & Setup
 
