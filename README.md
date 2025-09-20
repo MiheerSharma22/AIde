@@ -1,50 +1,69 @@
-# Welcome to your Expo app 👋
+# AIde – Your own AI helper
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+AIde Chat is a **context-aware AI chat application** built with React Native and powered by a MERN stack backend.  
+It delivers personalized AI conversations across three categories:
 
-## Get started
+- **Recipe Assistant** – Get cooking guidance and meal ideas.
+- **Itinerary Planner** – Plan trips and daily schedules with AI.
+- **General Assistance** – Everyday Q&A and productivity help.
 
-1. Install dependencies
+The app provides a **real-time, low-latency chat experience** using WebSockets and supports **Google OAuth login** for secure authentication.
 
-   ```bash
-   npm install
-   ```
+---
 
-2. Start the app
+## ✨ Features
 
-   ```bash
-    npx expo start
-   ```
+- 🔐 **Google OAuth Login** – Simple and secure authentication.
+- 🗂️ **Chat Categories** – Recipe, Itinerary, and General Assistance.
+- 📜 **Context-Aware Conversations** – Each chat strictly caters to its category.
+- 💾 **Persistent Conversations** – User chats are loaded by type.
+- ⚡ **Real-Time Messaging** – Bi-directional communication via WebSockets.
+- 📱 **Cross-Platform** – Optimized React Native app for Android (APK provided).
 
-In the output, you'll find options to open the app in a
+---
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+<!-- ## 📸 Screenshots   -->
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+<!-- --- -->
 
-## Get a fresh project
+## 📦 APK Download
 
-When you're ready, run:
+[Download APK](https://github.com/MiheerSharma22/AIde/releases/download/v1.0.0/aide-v1.0.apk)
+
+- if asked, allow installation from unknown sources on your android device.
+
+---
+
+## 🚀 Tech Stack
+
+- **Frontend:** React Native (Expo), Context API
+- **Backend:** Node.js, Express.js, MongoDB
+- **Authentication:** Google OAuth
+- **Real-Time Messaging:** Socket.IO
+- **Deployment:** Android APK
+
+---
+
+## Installation & Setup
+
+### Prerequisites
+
+- Node.js >= 18
+- Expo CLI (`npm install -g expo-cli`)
+- Android Studio / Emulator OR a physical Android device
+
+### Steps
 
 ```bash
-npm run reset-project
+# Clone the repository
+git clone https://github.com/yourusername/aide-chat-frontend.git
+
+# Navigate into the project directory
+cd aide-chat-frontend
+
+# Install dependencies
+npm install
+
+# Start the app
+npx expo start
 ```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
